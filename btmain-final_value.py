@@ -1,29 +1,38 @@
 import datetime
 import backtrader as bt
-from strategies import *
-from risk_management import *
+from trading_strategies import *
+from risk_managment import *
 from yahoo_fin.stock_info import get_data
+
 
 # Instantiate Cerebro engine
 cerebro = bt.Cerebro()
 
-# Set data parameters and add to Cerebro
-data = bt.feeds.PandasData(
-    # Call Yahoo_fin and get corresponding data
-    dataname = get_data('tsla', 
-                        start_date = "01/01/2020", 
-                        end_date = "12/31/2021", 
-                        index_as_date = True, 
-                        interval = "1d")
-    )
+# Arguments
+Portfolios = ['tsla', 'msft', 'aapl'] # Add more stocks in here
+start_date = "01/01/2020" # MM/DD/YYYY
+end_date = "12/31/2021" # MM/DD/YYYY
+interval = "1d" # 1d, 1wk, 1mo
 
-cerebro.adddata(data)
+# Set data parameters and add to Cerebro
+# Loop through the stock symbols and add data to Cerebro
+for stock in Portfolios:
+    data = bt.feeds.PandasData(
+        # Get data by using the Yahoo_fin api
+        dataname = get_data(stock, 
+                            start_date=start_date, 
+                            end_date=end_date, 
+                            index_as_date=True, 
+                            interval=interval)
+    )
+    # Store data into cerebro
+    cerebro.adddata(data, name=stock)
 
 # Add strategy to Cerebro
-cerebro.addstrategy(MAcrossover)
+cerebro.addstrategy(PrintDataNames)
 
-# Set initial capital
-cerebro.broker.setcash(1)
+# Set initial capital (Default: 10000)
+cerebro.broker.setcash(10000)
 
 # Default position size
 cerebro.addsizer(bt.sizers.SizerFix, stake=3)
