@@ -1,0 +1,16 @@
+data2 = bt.feeds.GenericCSVData(
+    dataname='BTC_Gtrends.csv',
+    fromdate=datetime.datetime(2018, 1, 1),
+    todate=datetime.datetime(2020, 1, 1),
+    nullvalue=0.0,
+    dtformat=('%Y-%m-%d'),
+    datetime=0,
+    time=-1,
+    high=-1,
+    low=-1,
+    open=-1,
+    close=1,
+    volume=-1,
+    openinterest=-1,
+    timeframe=bt.TimeFrame.Weeks)
+cerebro.adddata(data2)

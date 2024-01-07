@@ -1,8 +1,8 @@
-import datetime
 import backtrader as bt
 from trading_strategies import *
 from risk_managment import *
-from yahoo_fin.stock_info import get_data
+from stock_analyzer import *
+from yahoo_fin.stock_info import *
 
 
 # Instantiate Cerebro engine
